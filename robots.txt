@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://herczeg.priv.hu/sitemap.xml

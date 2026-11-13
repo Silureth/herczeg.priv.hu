@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Excel oszlopszélességek LibreOffice Calcban (Excel, NPOI és px) – Herczeg Szilárd</title>
+  <meta name="description" content="Ingyenes LibreOffice Calc bővítmény, amely Excel egységekben, NPOI / Apache POI értékben és pixelben mutatja az oszlopszélességet, és Excel érték beírásával állítja is.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Excel oszlopszélességek LibreOffice Calcban">
+  <meta property="og:description" content="Oszlopszélességek Excel és NPOI egységekben, kódból generált .xlsx fájlok ellenőrzéséhez LibreOffice-ban.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Excel Column Width for LibreOffice Calc",
+    "description": "LibreOffice Calc bővítmény, amely Excel, NPOI és pixel egységekben mutatja és állítja az oszlopszélességet.",
+    "codeRepository": "https://github.com/Silureth/libreoffice-excel-width",
+    "programmingLanguage": "Python",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "libreoffice, calc, excel oszlopszélesség, npoi, apache poi, openpyxl, xlsx",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/libreoffice-excel-column-width/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>Excel oszlopszélességek LibreOffice Calcban</h1>
+      <p class="lede">Ha NPOI-jal, Apache POI-jal vagy openpyxl-lel generálsz .xlsx fájlokat, és LibreOffice-ban ellenőrzöd őket, ismered a gondot: a Calc centiméterben mutatja az oszlopszélességet, az Excel karakterben. Ez a bővítmény élőben mutatja az Excel értéket, és be is lehet állítani vele.</p>
+      <ul class="tags post-meta"><li>LibreOffice bővítmény</li><li>Excel</li><li>NPOI</li><li>MIT licenc</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/libreoffice-excel-width/releases/latest">ExcelColumnWidth.oxt letöltése</a>
+        <a class="btn" href="https://github.com/Silureth/libreoffice-excel-width">Megnézem a GitHubon</a>
+      </div>
+
+      <h2>Mit mutat?</h2>
+      <p>Egy kis panel követi a kijelölést, és frissül, amikor átméretezed az oszlopokat:</p>
+      <pre class="no-copy"><code>┌ Excel column width ──────────────────┐
+│ C                                    │
+│ Excel 8.43   NPOI 2340   64 px       │
+│                                      │
+│ Set Excel: [ 8.43 ] [Apply] [Refresh]│
+└──────────────────────────────────────┘</code></pre>
+      <table>
+        <thead><tr><th>Mező</th><th>Jelentés</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Excel</strong></td><td>Az az érték, amit az Excel a <em>Formátum → Oszlopszélesség</em> ablakban mutat (karakterben)</td></tr>
+          <tr><td><strong>NPOI</strong></td><td>A <code>sheet.SetColumnWidth(col, n)</code> értéke, a karakter 1/256-od részében</td></tr>
+          <tr><td><strong>px</strong></td><td>Szélesség pixelben, 96 DPI mellett</td></tr>
+        </tbody>
+      </table>
+      <p>Több oszlop kijelölésekor mindegyik szélességét látod. Átméretezéshez írj be egy Excel szélességet (<code>8.43</code> vagy <code>8,43</code>) a <strong>Set Excel</strong> mezőbe, és nyomj Entert.</p>
+
+      <h2>Telepítés</h2>
+      <ol>
+        <li>Töltsd le az <code>ExcelColumnWidth.oxt</code> fájlt a <a href="https://github.com/Silureth/libreoffice-excel-width/releases/latest">legfrissebb kiadásból</a>. Pontosan ezt a fájlnevet hagyd meg.</li>
+        <li>LibreOffice-ban nyisd meg a <strong>Tools → Extension Manager → Add…</strong> menüt (magyar felületen: Eszközök → Kiterjesztések), és válaszd ki a fájlt, vagy zárt LibreOffice mellett:
+          <pre><code>unopkg add ExcelColumnWidth.oxt</code></pre>
+        </li>
+        <li>Indítsd újra a LibreOffice-t.</li>
+      </ol>
+      <div class="note">
+        <p>Ubuntun és Debianon a Python makrókhoz kell egy plusz csomag: <code>sudo apt install libreoffice-script-provider-python</code></p>
+      </div>
+      <p>A panelt a <strong>Ctrl+Shift+W</strong> billentyűkkel, a szalagos felületen az <strong>Extension</strong> fülről, vagy a <strong>Tools → Add-Ons → Excel Column Width</strong> menüből nyithatod meg.</p>
+
+      <h2>Miért nem 20 az Excelben a <code>SetColumnWidth(col, 20 * 256)</code>?</h2>
+      <p>Az Excel az alapértelmezett betűtípus legszélesebb számjegyéhez méri a szélességet: Calibri 11pt-nél ez 7 px. A felületen ráadásul 5 px margót is hozzáad. Vagyis:</p>
+      <pre><code>Excel (UI) = (px − 5) / 7
+NPOI érték = trunc(px * 256 / 7)</code></pre>
+      <p>Ezért 8.43 az alapértelmezett oszlop az Excelben, de 2340 NPOI-ban, és ezért lesz a <code>20 * 256</code> nagyjából 19.29. A bővítmény elvégzi helyetted ezt a számolást.</p>
+      <p class="muted">A 7 px-es számjegyszélesség Calibri 11pt-hez és Carlitóhoz helyes. Más alapértelmezett betűtípushoz módosítsd a <code>MDW_PX</code> értéket a <code>src/python/excel_width.py</code> fájlban.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

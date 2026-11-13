@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://herczeg.priv.hu/en/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/zabbix-smart-template/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/zabbix-smart-template/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/zabbix-smart-template/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/pop-launcher-remmina/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/projects/twin-blades-resanctified/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/pfopn-convert/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pfopn-convert/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pfopn-convert/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/en/tools/prerender-alpine/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/prerender-alpine/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/"/>
+  </url>
+  <url>
+    <loc>https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/prerender-alpine/"/>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/"/>
+  </url>
+</urlset>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Excel column widths in LibreOffice Calc (Excel, NPOI and px units) – Szilárd Herczeg</title>
+  <meta name="description" content="Free LibreOffice Calc extension that shows column widths in Excel units, NPOI / Apache POI values and pixels, and lets you set a width by typing an Excel value.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/libreoffice-excel-column-width/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Excel column widths in LibreOffice Calc">
+  <meta property="og:description" content="See and set column widths in Excel and NPOI units while checking generated .xlsx files in LibreOffice.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/libreoffice-excel-column-width/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Excel Column Width for LibreOffice Calc",
+    "description": "LibreOffice Calc extension that shows and sets column widths in Excel, NPOI and pixel units.",
+    "codeRepository": "https://github.com/Silureth/libreoffice-excel-width",
+    "programmingLanguage": "Python",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "libreoffice, calc, excel column width, npoi, apache poi, openpyxl, xlsx",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/libreoffice-excel-column-width/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>Excel column widths in LibreOffice Calc</h1>
+      <p class="lede">If you generate .xlsx files with NPOI, Apache POI or openpyxl and check them in LibreOffice, you've hit this: Calc shows column widths in centimetres, Excel in characters. This extension shows the Excel number, live, and lets you set it.</p>
+      <ul class="tags post-meta"><li>LibreOffice extension</li><li>Excel</li><li>NPOI</li><li>MIT license</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/libreoffice-excel-width/releases/latest">Download ExcelColumnWidth.oxt</a>
+        <a class="btn" href="https://github.com/Silureth/libreoffice-excel-width">View on GitHub</a>
+      </div>
+
+      <h2>What it shows</h2>
+      <p>A small panel follows your selection and updates as you resize columns:</p>
+      <pre class="no-copy"><code>┌ Excel column width ──────────────────┐
+│ C                                    │
+│ Excel 8.43   NPOI 2340   64 px       │
+│                                      │
+│ Set Excel: [ 8.43 ] [Apply] [Refresh]│
+└──────────────────────────────────────┘</code></pre>
+      <table>
+        <thead><tr><th>Field</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Excel</strong></td><td>The number Excel shows in <em>Format → Column Width</em> (characters)</td></tr>
+          <tr><td><strong>NPOI</strong></td><td>The value for <code>sheet.SetColumnWidth(col, n)</code>, in 1/256 of a character</td></tr>
+          <tr><td><strong>px</strong></td><td>Width in pixels at 96 DPI</td></tr>
+        </tbody>
+      </table>
+      <p>Select several columns to see each width. To resize, type an Excel width (<code>8.43</code> or <code>8,43</code>) in <strong>Set Excel</strong> and press Enter.</p>
+
+      <h2>Install</h2>
+      <ol>
+        <li>Download <code>ExcelColumnWidth.oxt</code> from the <a href="https://github.com/Silureth/libreoffice-excel-width/releases/latest">latest release</a>. Keep that exact file name.</li>
+        <li>In LibreOffice open <strong>Tools → Extension Manager → Add…</strong> and pick the file, or with LibreOffice closed:
+          <pre><code>unopkg add ExcelColumnWidth.oxt</code></pre>
+        </li>
+        <li>Restart LibreOffice.</li>
+      </ol>
+      <div class="note">
+        <p>On Ubuntu and Debian, Python macros need an extra package: <code>sudo apt install libreoffice-script-provider-python</code></p>
+      </div>
+      <p>Open the panel with <strong>Ctrl+Shift+W</strong>, from the <strong>Extension</strong> tab, or from <strong>Tools → Add-Ons → Excel Column Width</strong>.</p>
+
+      <h2>Why <code>SetColumnWidth(col, 20 * 256)</code> isn't 20 in Excel</h2>
+      <p>Excel measures width in characters of the default font, based on its widest digit: 7 px for Calibri 11pt. It also adds 5 px of padding in the UI. So:</p>
+      <pre><code>Excel (UI) = (px − 5) / 7
+NPOI value = trunc(px * 256 / 7)</code></pre>
+      <p>That's why the default column is 8.43 in Excel but 2340 in NPOI, and why <code>20 * 256</code> shows up as about 19.29. The extension does this math for you.</p>
+      <p class="muted">The 7 px digit width is right for Calibri 11pt and Carlito. For another default font, change <code>MDW_PX</code> in <code>src/python/excel_width.py</code>.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

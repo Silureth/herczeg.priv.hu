@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>pfSense migrálása OPNsense 26.7-re: pfopn-convert konfiguráció-átalakító – Herczeg Szilárd</title>
+  <meta name="description" content="A pfopn-convert egy pfSense CE konfigurációs mentésből OPNsense 26.7 konfigurációt készít: tűzfalszabályok az új szabálymodellben, NAT, OpenVPN, IPsec, DNS Resolver és pluginek. Visszaállítás előtt ellenőrzi is. Három éles migrációban használva.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pfopn-convert/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="pfSense migrálása OPNsense 26.7-re a pfopn-converttel">
+  <meta property="og:description" content="pfSense CE konfigurációs mentés átalakítása OPNsense 26.7 konfigurációvá, ellenőrzéssel a visszaállítás előtt.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pfopn-convert",
+    "description": "pfSense CE konfigurációs mentést alakít át OPNsense 26.7 konfigurációvá, visszaállítás előtt ellenőrzi, és összehasonlítja a kettőt.",
+    "codeRepository": "https://github.com/Silureth/pfopn-convert",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/BSD-2-Clause",
+    "keywords": "pfsense, opnsense, migráció, konfiguráció átalakítás, tűzfal, openvpn, ipsec",
+    "isBasedOn": "https://github.com/sheridans/pfopn-convert",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/pfopn-convert/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>pfSense migrálása OPNsense 26.7-re a pfopn-converttel</h1>
+      <p class="lede">Egy tűzfal kézi újraépítése több száz szabály, porttovábbítás és VPN beállítás elírás nélküli átmásolását jelenti. A pfopn-convert egy pfSense CE konfigurációs mentésből OPNsense 26.7 konfigurációt készít, amelyet egy friss telepítésre vissza lehet állítani, és a visszaállítás előtt ellenőrzi is az eredményt.</p>
+      <ul class="tags post-meta"><li>Rust CLI</li><li>pfSense CE</li><li>OPNsense 26.7</li><li>BSD-2-Clause</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pfopn-convert/releases/latest">Letöltés</a>
+        <a class="btn" href="https://github.com/Silureth/pfopn-convert">Megnézem a GitHubon</a>
+      </div>
+
+      <p>Ez a Sheridan Computers Limited által írt <a href="https://github.com/sheridans/pfopn-convert">sheridans/pfopn-convert</a> forkja, az ő átalakítójára épül. A fork a <strong>pfSense CE (24.6-os konfigurációs verzió) → OPNsense 26.7</strong> irányra koncentrál. Kijavítja azokat az átalakítási hibákat, amelyek csendben megváltoztatták a tűzfal működését, és hozzáadja az OPNsense 26.7 új szabályformátumát és további átalakításokat.</p>
+
+      <h2>Éles tűzfalakon tesztelve</h2>
+      <p>Három éles pfSense tűzfal OPNsense 26.7.8-ra költöztetéséhez használtam:</p>
+      <ul>
+        <li>egy <strong>több WAN-os gép</strong> policy routinggal, kb. 100 szabállyal, 58 porttovábbítással, virtuális IP-kkel, DNS Resolverrel, távoli sysloggal, Zabbix agenttel és node_exporterrel;</li>
+        <li>egy <strong>VPN gép</strong> LDAP felhasználókat használó OpenVPN szerverrel, két IKEv2 site-to-site tunnellel és Zabbix proxyval;</li>
+        <li>egy <strong>két WAN-os gép</strong> szeparátorokkal csoportosított porttovábbításokkal, OpenVPN-nel és IPsec-kel, SNMP-vel és pfBlockerNG IP listákkal.</li>
+      </ul>
+
+      <h2>Mit alakít át?</h2>
+      <ul>
+        <li><strong>Tűzfalszabályok, porttovábbítások, kimenő NAT, 1:1 NAT és NPt</strong>, az OPNsense 26.7 új szabálymodelljében, így a felületen továbbra is szerkeszthetők.</li>
+        <li>Interfészek, VLAN-ok, bridge-ek, virtuális IP-k, aliasok, gatewayek és statikus útvonalak.</li>
+        <li>DHCP (Kea-ra vagy ISC-re), DNS Resolver (Unbound), távoli syslog és LDAP szerverek.</li>
+        <li>OpenVPN szerverek, IPsec site-to-site tunnelek és WireGuard.</li>
+        <li>Pluginek: Zabbix agent és proxy, node_exporter, SNMP és a QEMU guest agent, ha a plugin telepítve van a célgépen.</li>
+        <li>A pfSense szabályszeparátoraiból OPNsense szabálykategóriák lesznek.</li>
+        <li>Olyan pfSense viselkedés, amit az OPNsense magától nem ad, például az automatikus IPsec szabályok és a kimenő NAT az OpenVPN tunnelhálózatokhoz.</li>
+      </ul>
+      <p>Amit nem tud átalakítani, azt figyelmeztetésként kiírja, így semmi nem vész el csendben. A <a href="https://github.com/Silureth/pfopn-convert#support-status">támogatási táblázat</a> (angolul) minden területet és korlátot felsorol.</p>
+
+      <h2>Telepítés</h2>
+      <p>Előre lefordított binárisok Linuxra (x86_64, aarch64), FreeBSD-re, macOS-re és Windowsra a <a href="https://github.com/Silureth/pfopn-convert/releases/latest">kiadások oldalon</a> vannak, <code>SHA256SUMS</code> fájllal. Linuxon:</p>
+      <pre><code>curl -fsSLO https://github.com/Silureth/pfopn-convert/releases/latest/download/pfopn-convert-linux-x86_64.tar.gz
+tar -xzf pfopn-convert-linux-x86_64.tar.gz
+./pfopn-convert scan config-pfsense.xml --to opnsense</code></pre>
+
+      <h2>Hogyan zajlik a migráció?</h2>
+      <p>Két konfigurációs export kell: a <strong>forrás</strong> a pfSense-ről, és egy <strong>alap</strong> (baseline) egy friss OPNsense telepítésről. Ennek pontosan azt a verziót kell futtatnia, amit használni fogsz, ugyanannyi interfésszel, ugyanabban a sorrendben hozzárendelve, és a szükséges pluginekkel telepítve. Az átalakító a forrás beállításait beleírja az alapba:</p>
+      <pre><code>pfopn-convert scan source-pfsense.xml --to opnsense
+pfopn-convert convert source-pfsense.xml --from pfsense --to opnsense \
+  --target-file opnsense-baseline.xml --output converted.xml
+pfopn-convert verify converted.xml --to opnsense --strict</code></pre>
+      <div class="note">
+        <p><strong>A visszaállítás a teljes konfigurációt lecseréli</strong>, és elvághat a hálózattól. Csak friss OPNsense telepítésre állítsd vissza, úgy, hogy csak egy elszigetelt hálózat legyen rákötve, és legyen visszaút (VM snapshot, vagy a régi tűzfal indításra készen).</p>
+      </div>
+      <p>A <a href="https://github.com/Silureth/pfopn-convert#migration-workflow">teljes, 12 lépéses folyamat</a> (angolul) kitér a szabálykészlet ellenőrzésére, az átállásra, és két olyan problémára is, ami csak utána jön elő: a beragadt tűzfalállapotokra és az üres URL tábla aliasokra.</p>
+
+      <h2>Konfigurációk biztonságos megosztása</h2>
+      <p>A repóban van egy <code>tools/sanitize_config.py</code> szkript is. Anonimizálja a konfigurációs mentést (jelszavak, kulcsok, publikus IP-k, domainek), mielőtt megosztod, például egy hibajelentésben, és a végén ellenőrzi, hogy nem maradt-e benne titok.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

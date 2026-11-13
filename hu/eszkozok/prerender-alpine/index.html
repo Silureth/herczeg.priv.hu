@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Saját Prerender szerver Dockerben: prerender-alpine – Herczeg Szilárd</title>
+  <meta name="description" content="Saját Prerender szerver JavaScriptes oldalakhoz: könnyű Alpine Linux konténer headless Chromiummal, teljesen környezeti változókkal konfigurálva, basic auth-tal, domain engedélylistával, health checkkel és Portainer támogatással.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/prerender-alpine/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Saját Prerender szerver Dockerben: prerender-alpine">
+  <meta property="og:description" content="Könnyű Prerender konténer headless Chromiummal, környezeti változókkal konfigurálva.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "prerender-alpine",
+    "description": "Könnyű Prerender konténer Alpine Linuxon, headless Chromiummal, teljesen környezeti változókkal konfigurálva.",
+    "codeRepository": "https://github.com/Silureth/prerender-alpine",
+    "programmingLanguage": "JavaScript",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "prerender, docker, alpine linux, headless chromium, seo, single page app, portainer",
+    "isBasedOn": "https://github.com/tvanro/prerender-alpine",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/prerender-alpine/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>Saját Prerender szerver Dockerben: prerender-alpine</h1>
+      <p class="lede">A keresőmotorok és a linkelőnézetek gyakran üres oldalt látnak, ha egy oldal JavaScripttel renderelődik. A <a href="https://github.com/prerender/prerender">Prerender</a> ezt úgy oldja meg, hogy headless Chromiumban rendereli az oldalt, és a botoknak a kész HTML-t adja. Ezzel a konténerrel saját magad futtathatod, csak környezeti változókkal konfigurálva.</p>
+      <ul class="tags post-meta"><li>Docker</li><li>Alpine Linux</li><li>Headless Chromium</li><li>MIT licenc</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/prerender-alpine">Megnézem a GitHubon</a>
+      </div>
+
+      <p>Ez a <a href="https://github.com/tvanro/prerender-alpine">tvanro/prerender-alpine</a> forkja. Jelenleg Prerender 5.21.6, Chromium 142, Node 22 és Alpine 3.22 van benne.</p>
+
+      <h2>Mit ad hozzá a fork?</h2>
+      <ul>
+        <li><strong>Konfiguráció környezeti változókkal:</strong> basic auth, domain engedély- és tiltólista, Chrome kapcsolók, proxy és a böngésző időnkénti újraindítása. Nem kell saját <code>server.js</code>.</li>
+        <li><strong>Biztonságos plugin sorrend:</strong> a hozzáférés-ellenőrzés a cache előtt fut, így gyorsítótárazott oldalt sem kap meg az a kliens, akit egyébként elutasítana.</li>
+        <li><strong><code>/health</code> végpont</strong> és Docker <code>HEALTHCHECK</code>, így a Docker és a Portainer mutatja, hogy a konténer egészséges-e.</li>
+        <li><strong>Szabályos leállás</strong> <code>SIGTERM</code> jelre (<code>docker stop</code>, Kubernetes).</li>
+        <li><strong>Reprodukálható buildek</strong> commitolt lockfile-lal, rögzített Node és Alpine verziókkal.</li>
+        <li><strong>Módosítás nélkül működő docker-compose fájl</strong>, Portainerhez is.</li>
+      </ul>
+
+      <h2>Gyors kezdés</h2>
+      <p>Ehhez a forkhoz nincs publikált image, ezért forrásból kell buildelni:</p>
+      <pre><code>git clone https://github.com/Silureth/prerender-alpine.git
+cd prerender-alpine
+cp .env.example .env        # állítsd be az ALLOWED_DOMAINS-t stb.
+docker compose up -d --build</code></pre>
+      <p>A Prerender ezután a <code>127.0.0.1:3000</code> címen figyel, így csak az ugyanazon a gépen futó reverse proxy éri el:</p>
+      <pre><code>curl http://127.0.0.1:3000/health
+curl 'http://127.0.0.1:3000/render?url=https://www.example.com/'</code></pre>
+      <p>Portainerben adj hozzá egy stacket a repóból (<code>https://github.com/Silureth/prerender-alpine</code>, compose útvonal: <code>docker-compose.yml</code>), és állítsd be a szükséges környezeti változókat.</p>
+
+      <h2>Leggyakoribb beállítások</h2>
+      <table>
+        <thead><tr><th>Változó</th><th>Mit csinál?</th></tr></thead>
+        <tbody>
+          <tr><td><code>ALLOWED_DOMAINS</code></td><td>Vesszővel elválasztott hostnevek. Minden más domain 404-et kap.</td></tr>
+          <tr><td><code>BASIC_AUTH_USERNAME</code> / <code>_PASSWORD</code></td><td>Ha mindkettő meg van adva, bekapcsolja a basic auth-ot.</td></tr>
+          <tr><td><code>BROWSER_FORCE_RESTART_PERIOD</code></td><td>Ennyi ms után újraindítja a Chromiumot, terhelés alatt is. Hosszan futó példányokhoz a <code>3600000</code> jó érték.</td></tr>
+          <tr><td><code>BLOCK_RESOURCES</code></td><td>Kihagyja a képeket, betűtípusokat és analitikát a gyorsabb renderelésért.</td></tr>
+          <tr><td><code>PAGE_LOAD_TIMEOUT</code></td><td>Maximális renderelési idő ms-ban (alapértelmezés: 20000).</td></tr>
+        </tbody>
+      </table>
+      <p>A <a href="https://github.com/Silureth/prerender-alpine#configuration">README minden változót felsorol</a> (angolul).</p>
+
+      <h2>Gyorsítótárazás</h2>
+      <p>Az ajánlott gyorsítótár az nginx <code>proxy_cache</code> a konténer előtt. Lemezre menti az oldalakat, túléli az újraindítást, és egy oldalt csak egyszer renderel, ha egyszerre több bot kéri. A README-ben van egy <a href="https://github.com/Silureth/prerender-alpine#nginx-in-front-recommended">teljes nginx konfiguráció</a>, egy titkos fejléccel egyes oldalak frissítéséhez.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

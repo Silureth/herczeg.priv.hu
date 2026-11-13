@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Migrate pfSense to OPNsense 26.7: pfopn-convert config converter – Szilárd Herczeg</title>
+  <meta name="description" content="pfopn-convert turns a pfSense CE config backup into an OPNsense 26.7 config: firewall rules in the new rule model, NAT, OpenVPN, IPsec, DNS Resolver and plugins. Checks it before restore. Used for three production migrations.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/pfopn-convert/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pfopn-convert/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pfopn-convert/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Migrate pfSense to OPNsense 26.7 with pfopn-convert">
+  <meta property="og:description" content="Convert a pfSense CE config backup into an OPNsense 26.7 config and check it before restoring.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/pfopn-convert/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pfopn-convert",
+    "description": "Converts a pfSense CE config backup into an OPNsense 26.7 config, checks it before restore, and diffs the two.",
+    "codeRepository": "https://github.com/Silureth/pfopn-convert",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/BSD-2-Clause",
+    "keywords": "pfsense, opnsense, migration, config converter, firewall, openvpn, ipsec",
+    "isBasedOn": "https://github.com/sheridans/pfopn-convert",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/pfopn-convert/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>Migrate pfSense to OPNsense 26.7 with pfopn-convert</h1>
+      <p class="lede">Rebuilding a firewall by hand means hundreds of rules, port forwards and VPN settings to copy without a typo. pfopn-convert takes a pfSense CE config backup and turns it into an OPNsense 26.7 config you can restore on a fresh install, then checks the result before you restore it.</p>
+      <ul class="tags post-meta"><li>Rust CLI</li><li>pfSense CE</li><li>OPNsense 26.7</li><li>BSD-2-Clause</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pfopn-convert/releases/latest">Download</a>
+        <a class="btn" href="https://github.com/Silureth/pfopn-convert">View on GitHub</a>
+      </div>
+
+      <p>This is a fork of <a href="https://github.com/sheridans/pfopn-convert">sheridans/pfopn-convert</a> by Sheridan Computers Limited, who wrote the converter it builds on. The fork focuses on <strong>pfSense CE (config version 24.6) → OPNsense 26.7</strong>. It fixes conversion bugs that silently changed firewall behaviour, and adds OPNsense 26.7's new rule format and more conversions.</p>
+
+      <h2>Tested on real firewalls</h2>
+      <p>It was used to migrate three production pfSense firewalls to OPNsense 26.7.8:</p>
+      <ul>
+        <li>a <strong>multi-WAN box</strong> with policy routing, about 100 rules, 58 port forwards, virtual IPs, DNS Resolver, remote syslog, Zabbix agent and node_exporter;</li>
+        <li>a <strong>VPN box</strong> with an OpenVPN server using LDAP users, two IKEv2 site-to-site tunnels and a Zabbix proxy;</li>
+        <li>a <strong>two-WAN box</strong> with port forwards grouped by separators, OpenVPN and IPsec, SNMP and pfBlockerNG IP lists.</li>
+      </ul>
+
+      <h2>What it converts</h2>
+      <ul>
+        <li><strong>Firewall rules, port forwards, outbound NAT, 1:1 NAT and NPt</strong>, written in OPNsense 26.7's new rule model so you can still edit them in the GUI.</li>
+        <li>Interfaces, VLANs, bridges, virtual IPs, aliases, gateways and static routes.</li>
+        <li>DHCP (to Kea or ISC), DNS Resolver (Unbound), remote syslog and LDAP servers.</li>
+        <li>OpenVPN servers, IPsec site-to-site tunnels and WireGuard.</li>
+        <li>Plugins: Zabbix agent and proxy, node_exporter, SNMP and the QEMU guest agent, when the plugin is installed on the destination.</li>
+        <li>pfSense rule separators become OPNsense rule categories.</li>
+        <li>pfSense behaviour OPNsense doesn't reproduce by itself, such as automatic IPsec rules and outbound NAT for OpenVPN tunnel networks.</li>
+      </ul>
+      <p>Everything it can't convert is printed as a warning, so nothing is dropped silently. The <a href="https://github.com/Silureth/pfopn-convert#support-status">support table</a> lists every area and its limitations.</p>
+
+      <h2>Install</h2>
+      <p>Prebuilt binaries for Linux (x86_64, aarch64), FreeBSD, macOS and Windows are on the <a href="https://github.com/Silureth/pfopn-convert/releases/latest">releases page</a>, with a <code>SHA256SUMS</code> file. On Linux:</p>
+      <pre><code>curl -fsSLO https://github.com/Silureth/pfopn-convert/releases/latest/download/pfopn-convert-linux-x86_64.tar.gz
+tar -xzf pfopn-convert-linux-x86_64.tar.gz
+./pfopn-convert scan config-pfsense.xml --to opnsense</code></pre>
+
+      <h2>How a migration works</h2>
+      <p>You need two config exports: the <strong>source</strong> from pfSense, and a <strong>baseline</strong> from a fresh OPNsense install of the exact version you'll run, with the same number of interfaces assigned in the same order and the needed plugins installed. The converter writes the source's settings into the baseline:</p>
+      <pre><code>pfopn-convert scan source-pfsense.xml --to opnsense
+pfopn-convert convert source-pfsense.xml --from pfsense --to opnsense \
+  --target-file opnsense-baseline.xml --output converted.xml
+pfopn-convert verify converted.xml --to opnsense --strict</code></pre>
+      <div class="note">
+        <p><strong>Restoring replaces the whole configuration</strong> and can cut you off from the network. Restore only onto a fresh OPNsense install, with only an isolated network connected, and keep a way back (a VM snapshot, or the old firewall ready to start).</p>
+      </div>
+      <p>The <a href="https://github.com/Silureth/pfopn-convert#migration-workflow">full 12-step workflow</a> also covers checking the ruleset, the cutover, and two problems that only show up afterwards: stale firewall states and empty URL table aliases.</p>
+
+      <h2>Sharing configs safely</h2>
+      <p>The repository also includes <code>tools/sanitize_config.py</code>. It anonymizes a config backup (passwords, keys, public IPs, domains) before you share it, for example in a bug report, and checks at the end that no secret is left.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Self-hosted Prerender in Docker: prerender-alpine – Szilárd Herczeg</title>
+  <meta name="description" content="Run your own Prerender server for JavaScript sites: a lightweight Alpine Linux container with headless Chromium, configured entirely by environment variables, with basic auth, a domain allow-list, a health check and Portainer support.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/prerender-alpine/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/prerender-alpine/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/prerender-alpine/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Self-hosted Prerender in Docker: prerender-alpine">
+  <meta property="og:description" content="A lightweight Prerender container with headless Chromium, configured by environment variables.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/prerender-alpine/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "prerender-alpine",
+    "description": "Lightweight Prerender container on Alpine Linux with headless Chromium, configured entirely by environment variables.",
+    "codeRepository": "https://github.com/Silureth/prerender-alpine",
+    "programmingLanguage": "JavaScript",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "prerender, docker, alpine linux, headless chromium, seo, single page app, portainer",
+    "isBasedOn": "https://github.com/tvanro/prerender-alpine",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/prerender-alpine/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>Self-hosted Prerender in Docker: prerender-alpine</h1>
+      <p class="lede">Search engines and link previews often see an empty page when a site is rendered with JavaScript. <a href="https://github.com/prerender/prerender">Prerender</a> fixes that by rendering the page in headless Chromium and serving bots the finished HTML. This container lets you run it yourself, configured only with environment variables.</p>
+      <ul class="tags post-meta"><li>Docker</li><li>Alpine Linux</li><li>Headless Chromium</li><li>MIT license</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/prerender-alpine">View on GitHub</a>
+      </div>
+
+      <p>This is a fork of <a href="https://github.com/tvanro/prerender-alpine">tvanro/prerender-alpine</a>. It currently ships Prerender 5.21.6, Chromium 142, Node 22 and Alpine 3.22.</p>
+
+      <h2>What the fork adds</h2>
+      <ul>
+        <li><strong>Configuration through environment variables:</strong> basic auth, a domain allow-list and block-list, Chrome flags, a proxy and periodic browser restarts. No custom <code>server.js</code> needed.</li>
+        <li><strong>Safe plugin order:</strong> access control runs before the caches, so a cached page is never served to a client that would be rejected.</li>
+        <li><strong>A <code>/health</code> endpoint</strong> and a Docker <code>HEALTHCHECK</code>, so Docker and Portainer show the container as healthy or unhealthy.</li>
+        <li><strong>Clean shutdown</strong> on <code>SIGTERM</code> (<code>docker stop</code>, Kubernetes).</li>
+        <li><strong>Reproducible builds</strong> with a committed lockfile and pinned Node and Alpine versions.</li>
+        <li><strong>A docker-compose file that works as it is</strong>, ready for Portainer.</li>
+      </ul>
+
+      <h2>Quick start</h2>
+      <p>There's no published image for this fork, so you build it from source:</p>
+      <pre><code>git clone https://github.com/Silureth/prerender-alpine.git
+cd prerender-alpine
+cp .env.example .env        # set ALLOWED_DOMAINS etc.
+docker compose up -d --build</code></pre>
+      <p>Prerender now listens on <code>127.0.0.1:3000</code>, so only a reverse proxy on the same host can reach it:</p>
+      <pre><code>curl http://127.0.0.1:3000/health
+curl 'http://127.0.0.1:3000/render?url=https://www.example.com/'</code></pre>
+      <p>In Portainer, add a stack from the repository (<code>https://github.com/Silureth/prerender-alpine</code>, compose path <code>docker-compose.yml</code>) and set the environment variables you need.</p>
+
+      <h2>Most used settings</h2>
+      <table>
+        <thead><tr><th>Variable</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>ALLOWED_DOMAINS</code></td><td>Comma-separated hostnames. All other domains get a 404.</td></tr>
+          <tr><td><code>BASIC_AUTH_USERNAME</code> / <code>_PASSWORD</code></td><td>Turns on basic auth when both are set.</td></tr>
+          <tr><td><code>BROWSER_FORCE_RESTART_PERIOD</code></td><td>Restarts Chromium after this many ms, even under load. <code>3600000</code> is a good value for long-running instances.</td></tr>
+          <tr><td><code>BLOCK_RESOURCES</code></td><td>Skips images, fonts and analytics for faster renders.</td></tr>
+          <tr><td><code>PAGE_LOAD_TIMEOUT</code></td><td>Maximum render time in ms (default 20000).</td></tr>
+        </tbody>
+      </table>
+      <p>The <a href="https://github.com/Silureth/prerender-alpine#configuration">README lists every variable</a>.</p>
+
+      <h2>Caching</h2>
+      <p>The recommended cache is nginx's <code>proxy_cache</code> in front of the container. It stores pages on disk, survives restarts, and renders a page only once when several bots ask for it at the same time. The README has a <a href="https://github.com/Silureth/prerender-alpine#nginx-in-front-recommended">complete nginx config</a>, including a secret header to refresh a single page.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

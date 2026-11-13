@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Legutóbbi VS Code projektek megnyitása a Pop!_OS launcherből – Herczeg Szilárd</title>
+  <meta name="description" content="pop-launcher plugin Pop!_OS-hez: a vc paranccsal keresheted és nyithatod meg a legutóbbi VS Code mappákat és workspace-eket, WSL, SSH és dev container projekteket is. Egyetlen statikus Rust bináris.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Legutóbbi VS Code projektek megnyitása a Pop!_OS launcherből">
+  <meta property="og:description" content="A vc paranccsal keresheted és nyithatod meg a legutóbbi VS Code mappákat és workspace-eket, helyi és távoli projekteket egyaránt.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pop-launcher-vscode-recents",
+    "description": "pop-launcher plugin, amely keres a legutóbbi VS Code mappák és workspace-ek között, a távoliakat is beleértve, és megnyitja őket.",
+    "codeRepository": "https://github.com/Silureth/pop-launcher-vscode-recents",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "pop-launcher, pop!_os, cosmic, vscode, visual studio code, legutóbbi projektek, launcher plugin",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/pop-launcher-vscode-recents/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>Legutóbbi VS Code projektek megnyitása a Pop!_OS launcherből</h1>
+      <p class="lede">Ugorj vissza bármelyik projektbe anélkül, hogy előbb megnyitnád a VS Code-ot. Nyomd meg a Super billentyűt, írd be, hogy <code>vc</code> és a mappanév egy részét, és megnyílik, akkor is, ha WSL, SSH vagy konténeres mappáról van szó.</p>
+      <ul class="tags post-meta"><li>pop-launcher plugin</li><li>Rust</li><li>x86_64 és ARM64</li><li>MIT licenc</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pop-launcher-vscode-recents">Megnézem a GitHubon</a>
+        <a class="btn" href="https://github.com/Silureth/pop-launcher-vscode-recents/releases/latest">Legfrissebb kiadás</a>
+      </div>
+
+      <h2>Mit tud?</h2>
+      <ul>
+        <li>A VS Code-ban legutóbb megnyitott mappák és workspace-ek között keres.</li>
+        <li>A távoli projekteket (WSL, SSH, konténer) is megtalálja.</li>
+        <li>Az ikonok az asztali ikontémából jönnek, így a találatok illeszkednek a rendszer többi részéhez.</li>
+        <li>A már nem létező helyi mappák rejtve maradnak.</li>
+        <li>Egyetlen statikus bináris: nem kell hozzá Node.js vagy Rust.</li>
+      </ul>
+
+      <h2>Telepítés</h2>
+      <p>Kell hozzá a pop-launcher, és hogy a <code>code</code> parancs benne legyen a PATH-ban. Töltsd le a legfrissebb kiadást a plugin mappába:</p>
+      <pre><code>mkdir -p ~/.local/share/pop-launcher/plugins
+curl -fsSL "https://github.com/Silureth/pop-launcher-vscode-recents/releases/latest/download/vscode-open-recent-$(uname -m).tar.gz" \
+  | tar -xz -C ~/.local/share/pop-launcher/plugins</code></pre>
+      <p>Utána indítsd újra a pop-launchert. A launcher következő megnyitásakor újraindul:</p>
+      <pre><code>pkill pop-launcher</code></pre>
+      <p>Frissítéshez futtasd le újra mindkét lépést. A beállításaid megmaradnak.</p>
+
+      <h2>Beállítások</h2>
+      <p>Az alapértékekkel azonnal működik. Ha módosítanád őket, másold a <code>config.example.json</code> fájlt <code>config.json</code> néven a plugin mappájába:</p>
+      <table>
+        <thead><tr><th>Beállítás</th><th>Alapérték</th><th>Mit csinál?</th></tr></thead>
+        <tbody>
+          <tr><td><code>always_open_in_new_window</code></td><td><code>true</code></td><td>Új VS Code ablakban nyitja meg a találatot</td></tr>
+          <tr><td><code>hide_deleted_entries</code></td><td><code>true</code></td><td>Kihagyja a már nem létező helyi mappákat</td></tr>
+          <tr><td><code>vscode-cli-additional-args</code></td><td><code>[]</code></td><td>Plusz argumentumok a <code>code</code> parancsnak, pl. <code>["--profile", "Work"]</code></td></tr>
+        </tbody>
+      </table>
+      <p>A <code>vc</code> kulcsszót is átírhatod a <code>plugin.ron</code> fájlban. Ha a régebbi, Node.js-es verziót használtad, a <a href="https://github.com/Silureth/pop-launcher-vscode-recents#upgrading-from-the-nodejs-version">README leírja, hogyan frissíts</a> (angolul).</p>
+
+      <h2>Lásd még</h2>
+      <p><a href="/hu/eszkozok/pop-launcher-remmina/">Remmina kapcsolatok a Pop!_OS launcherből</a>: ugyanez az ötlet RDP, VNC és SSH kapcsolatokhoz.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

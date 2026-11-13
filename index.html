@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Herczeg Szilárd</title>
+  <meta name="description" content="Software and systems architect from Hungary. Open source tools for pfSense, OPNsense, Zabbix, Linux and LibreOffice.">
+  <link rel="canonical" href="https://herczeg.priv.hu/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/">
+  <link rel="alternate" hreflang="x-default" href="https://herczeg.priv.hu/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    // Pick a language: the visitor's earlier choice first, then the browser's languages.
+    (function () {
+      var lang = null;
+      try { lang = localStorage.getItem('lang'); } catch (e) {}
+      if (lang !== 'hu' && lang !== 'en') {
+        var prefs = navigator.languages || [navigator.language || 'en'];
+        lang = 'en';
+        for (var i = 0; i < prefs.length; i++) {
+          var p = String(prefs[i]).toLowerCase();
+          if (p.indexOf('hu') === 0) { lang = 'hu'; break; }
+          if (p.indexOf('en') === 0) break;
+        }
+      }
+      location.replace('/' + lang + '/');
+    })();
+  </script>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Herczeg Szilárd</h1>
+    <p class="lede">Choose a language · Válassz nyelvet</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/en/" data-lang="en">English</a>
+      <a class="btn" href="/hu/" data-lang="hu">Magyar</a>
+    </div>
+  </main>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

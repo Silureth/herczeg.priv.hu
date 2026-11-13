@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Twin Blades on modern PCs: Resanctified, a preservation port for Windows and Linux – Szilárd Herczeg</title>
+  <meta name="description" content="Resanctified is a free, non-commercial preservation port of Twin Blades, the 2010 Windows Phone 7 game, to .NET 10 and MonoGame. Play it on Windows and Linux, with an optional HD texture pack.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Twin Blades on modern PCs: Resanctified">
+  <meta property="og:description" content="A preservation port of the 2010 Windows Phone 7 game Twin Blades to Windows and Linux.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Resanctified",
+    "description": "Non-commercial preservation port of the 2010 Windows Phone 7 game Twin Blades to .NET 10 and MonoGame DesktopGL for Windows and Linux.",
+    "codeRepository": "https://github.com/Silureth/twin-blades-resanctified",
+    "programmingLanguage": "C#",
+    "keywords": "twin blades, windows phone 7, xna, monogame, game preservation, port, linux, windows",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/projektek/twin-blades-resanctified/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#projects">← All projects</a></p>
+      <h1>Twin Blades on modern PCs: Resanctified</h1>
+      <p class="lede">Twin Blades came out for Windows Phone 7 in 2010. The phones are gone and the game can no longer be bought or installed. Resanctified is a free, non-commercial port that keeps it playable on current Windows and Linux PCs.</p>
+      <ul class="tags post-meta"><li>C#</li><li>.NET 10</li><li>MonoGame</li><li>Game preservation</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/twin-blades-resanctified/releases/latest">Download v1.0</a>
+        <a class="btn" href="https://github.com/Silureth/twin-blades-resanctified">View on GitHub</a>
+      </div>
+
+      <h2>What the port does</h2>
+      <ul>
+        <li>Moves the original XNA game to <strong>.NET 10 and MonoGame DesktopGL</strong>, so it runs natively on Windows and Linux (x64).</li>
+        <li>Releases are <strong>self-contained</strong>: no .NET install needed. The Linux build also bundles SDL2 and OpenAL.</li>
+        <li>An optional <strong>HD texture pack</strong> at twice the original resolution, upscaled from the original art. The game falls back to the original textures when HD is off.</li>
+        <li>A resizable window, starting at 960×640.</li>
+      </ul>
+
+      <h2>Download and play</h2>
+      <p>Get the archive for your system from the <a href="https://github.com/Silureth/twin-blades-resanctified/releases/latest">latest release</a> and unpack it. Keep the whole folder together, since the game loads its content from next to the executable.</p>
+      <h3>Linux</h3>
+      <pre><code>tar -xzf Resanctified-v1.0-linux-x64.tar.gz
+./Resanctified-linux-x64/Resanctified</code></pre>
+      <p class="muted">If the archive was repacked on Windows and the executable bit got lost, run <code>chmod +x Resanctified</code>.</p>
+      <h3>Windows</h3>
+      <p>Unzip <code>Resanctified-v1.0-win-x64.zip</code> and double-click <code>Resanctified.exe</code>.</p>
+      <h3>Window size and saves</h3>
+      <p>Start with a bigger window:</p>
+      <pre><code>./Resanctified --window 1440x960</code></pre>
+      <p>Saves and settings go to <code>~/.local/share/Resanctified</code> on Linux and <code>%LOCALAPPDATA%\Resanctified</code> on Windows.</p>
+
+      <h2>Copyright</h2>
+      <div class="note">
+        <p><strong>Twin Blades</strong> and all of its original code, art, music, sounds and text are ©2010 Press Start Studio. All rights reserved. This project is not affiliated with or endorsed by Press Start Studio, its publisher, Microsoft or any other rights holder. It is free, carries no ads, and no money is made from it.</p>
+      </div>
+      <p>If you own rights in Twin Blades and want the project changed or taken down, <a href="https://github.com/Silureth/twin-blades-resanctified/issues">open an issue on GitHub</a> and it will be done promptly.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

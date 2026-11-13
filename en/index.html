@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Szilárd Herczeg – software and systems architect</title>
+  <meta name="description" content="Software and systems architect from Hungary. Free, open source tools: pfSense to OPNsense migration, Zabbix SMART disk monitoring, self-hosted Prerender, Excel column widths in LibreOffice, Pop!_OS launcher plugins for Remmina and VS Code.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/">
+  <link rel="alternate" hreflang="x-default" href="https://herczeg.priv.hu/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Szilárd Herczeg – software and systems architect">
+  <meta property="og:description" content="Free, open source tools for Zabbix, LibreOffice and Pop!_OS.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Szilárd Herczeg",
+    "alternateName": "Herczeg Szilárd",
+    "url": "https://herczeg.priv.hu/",
+    "jobTitle": "Software and systems architect",
+    "sameAs": [
+      "https://github.com/Silureth",
+      "https://www.linkedin.com/in/szilardherczeg"
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="/en/#projects">Projects</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="intro">
+      <h1>Hi!</h1>
+      <p class="lede">I'm a software and systems architect: I design and build web and mobile apps, and I plan and run infrastructure, from Proxmox and Zabbix to Elastic Security and DevOps workflows.</p>
+      <p>On the side I write tools that make everyday work easier.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a class="btn" href="https://www.linkedin.com/in/szilardherczeg">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </section>
+
+    <section id="tools">
+      <h2>Tools</h2>
+      <ul class="tool-list">
+        <li>
+          <a class="tool-card" href="/en/tools/pfopn-convert/">
+            <h3>Migrate pfSense to OPNsense 26.7</h3>
+            <p>Convert a pfSense CE config backup into an OPNsense 26.7 config: firewall rules, NAT, OpenVPN, IPsec, DNS Resolver and plugins. Checks the result before restore.</p>
+            <ul class="tags"><li>pfSense</li><li>OPNsense</li><li>Rust</li></ul>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/en/tools/zabbix-smart-template/">
+            <h3>SMART disk monitoring for Zabbix</h3>
+            <p>Watch HDD, SSD and NVMe health with the stock Zabbix agent 2: SSD wearout, total bytes written, failure attributes and disk age alerts, even behind RAID controllers.</p>
+            <ul class="tags"><li>Zabbix</li><li>Monitoring</li><li>S.M.A.R.T.</li></ul>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/en/tools/prerender-alpine/">
+            <h3>Self-hosted Prerender in Docker</h3>
+            <p>A lightweight Prerender container with headless Chromium that serves rendered HTML of JavaScript sites to search engines. Configured only with environment variables.</p>
+            <ul class="tags"><li>Docker</li><li>SEO</li><li>Alpine</li></ul>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/en/tools/libreoffice-excel-column-width/">
+            <h3>Excel column widths in LibreOffice Calc</h3>
+            <p>A Calc extension that shows column widths in Excel and NPOI units and lets you set them. Made for checking .xlsx files generated from code.</p>
+            <ul class="tags"><li>LibreOffice</li><li>Excel</li><li>NPOI</li></ul>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/en/tools/pop-launcher-remmina/">
+            <h3>Remmina connections in the Pop!_OS launcher</h3>
+            <p>Type <code>rem</code> and a name to open saved RDP, VNC and SSH connections straight from the launcher.</p>
+            <ul class="tags"><li>Pop!_OS</li><li>Remmina</li><li>Rust</li></ul>
+          </a>
+        </li>
+        <li>
+          <a class="tool-card" href="/en/tools/pop-launcher-vscode-recents/">
+            <h3>Recent VS Code projects in the Pop!_OS launcher</h3>
+            <p>Type <code>vc</code> to search and open recent VS Code folders and workspaces, including WSL, SSH and container ones.</p>
+            <ul class="tags"><li>Pop!_OS</li><li>VS Code</li><li>Rust</li></ul>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <section id="projects">
+      <h2>Projects</h2>
+      <ul class="tool-list">
+        <li>
+          <a class="tool-card" href="/en/projects/twin-blades-resanctified/">
+            <h3>Twin Blades on modern PCs</h3>
+            <p>A preservation port of the 2010 Windows Phone 7 game to .NET 10 and MonoGame, so it runs on Windows and Linux again. Optional HD textures.</p>
+            <ul class="tags"><li>C#</li><li>MonoGame</li><li>Game preservation</li></ul>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

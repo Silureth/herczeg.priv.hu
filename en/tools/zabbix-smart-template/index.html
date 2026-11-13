@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>SMART disk monitoring template for Zabbix agent 2 (HDD, SSD, NVMe, RAID) – Szilárd Herczeg</title>
+  <meta name="description" content="Free Zabbix 7.0 template for S.M.A.R.T. disk health: SSD wearout, TBW, pending sectors, CRC errors and disk age alerts. Works with the stock Zabbix agent 2 and disks behind HP Smart Array.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/zabbix-smart-template/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/zabbix-smart-template/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SMART disk monitoring template for Zabbix agent 2">
+  <meta property="og:description" content="SSD wearout, TBW, failure attributes and disk age alerts for HDD, SSD and NVMe, with the stock Zabbix agent 2.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/zabbix-smart-template/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "SMART by Zabbix agent 2 by Silureth",
+    "description": "Zabbix template for S.M.A.R.T. disk monitoring of HDD, SATA SSD and NVMe disks, including disks behind RAID controllers, using the stock Zabbix agent 2.",
+    "codeRepository": "https://github.com/Silureth/zabbix-agent2-smart-raw",
+    "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+    "keywords": "zabbix, smart, smartctl, ssd wearout, nvme, raid, disk monitoring",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/zabbix-smart-template/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>SMART disk monitoring template for Zabbix agent 2</h1>
+      <p class="lede">Know when a disk is wearing out before it fails. This Zabbix template reads S.M.A.R.T. data from HDDs, SATA SSDs and NVMe drives, including disks behind RAID controllers, and alerts on SSD wear, failure attributes and disk age.</p>
+      <ul class="tags post-meta"><li>Zabbix 7.0</li><li>Zabbix 6.0</li><li>smartctl</li><li>HP Smart Array</li><li>AGPL-3.0</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/zabbix-agent2-smart-raw">View on GitHub</a>
+        <a class="btn" href="https://github.com/Silureth/zabbix-agent2-smart-raw/blob/main/zbx_export_templates7_0.yaml">Template file (7.0)</a>
+      </div>
+
+      <h2>Why another SMART template?</h2>
+      <p>The official “SMART by Zabbix agent 2” template covers the basics, but it doesn't tell you how much life an SSD has left. Every vendor reports wear under a different attribute name, and some count up while others count down. This template adds those vendor attributes, turns them into one “% life remaining” value, and alerts on it.</p>
+      <p>It works with the <strong>stock</strong> Zabbix agent 2 (7.0.x, tested on 7.0.32). No external scripts or custom agent builds. It has its own UUIDs, so you can import it next to the official template.</p>
+
+      <h2>What it monitors</h2>
+      <p>Every disk smartctl can read gets temperature, power-on hours, model, serial number, smartctl exit status and self-test result. NVMe disks also get percentage used, critical warning and media errors. Vendor attributes are added when the disk reports them:</p>
+      <table>
+        <thead><tr><th>Disk</th><th>Endurance item</th><th>Extra items</th></tr></thead>
+        <tbody>
+          <tr><td>Samsung SATA SSD</td><td>Wear_Leveling_Count</td><td>Total bytes written, Runtime_Bad_Block, Uncorrectable_Error_Cnt, CRC_Error_Count</td></tr>
+          <tr><td>Micron / Crucial SATA SSD</td><td>Percent_Lifetime_Remain</td><td>Total bytes written, Current_Pending_Sector, Offline_Uncorrectable, UDMA_CRC_Error_Count, Reported_Uncorrect</td></tr>
+          <tr><td>WD (Red SA500 and others)</td><td>Media_Wearout_Indicator</td><td>Total bytes written, UDMA_CRC_Error_Count, Reported_Uncorrect</td></tr>
+          <tr><td>Kingston SSD</td><td>SSD_Life_Left</td><td>Total bytes written if reported</td></tr>
+          <tr><td>NVMe (any brand)</td><td>Percentage used</td><td>Critical warning, media errors</td></tr>
+          <tr><td>HDD (any brand)</td><td>–</td><td>Reallocated_Sector_Ct, Current_Pending_Sector, Offline_Uncorrectable, Seek_Error_Rate and more</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Tested on Samsung 860/870 EVO, Micron MTFDDAK960TCB, WD Red SA500 and Samsung 980 / 980 PRO NVMe drives, with SATA disks behind an HP Smart Array (<code>cciss</code>) controller.</p>
+
+      <h2>Alerts</h2>
+      <ul>
+        <li><strong>SSD wear:</strong> warning, average and critical below 30 / 20 / 10 % life remaining (configurable with macros).</li>
+        <li><strong>Failure attributes:</strong> pending and uncorrectable sectors, runtime bad blocks, and CRC errors, which usually point to a bad cable or backplane. Alerts when reallocated sectors or reported uncorrectable errors increase.</li>
+        <li><strong>Disk age</strong> from power-on hours: 8 / 10 / 12 years for HDDs, 6 / 7 / 8 years for SSDs and NVMe.</li>
+        <li><strong>Suspicious wear counter:</strong> more than 500 TB written while the disk still claims 99–100 % life left.</li>
+      </ul>
+
+      <h2>Setup</h2>
+      <ol>
+        <li>Install Zabbix agent 2 (7.0 or newer) and smartmontools 7.1 or newer.</li>
+        <li>Tell the agent where <code>smartctl</code> is, if it's not in its PATH:
+          <pre><code>Plugins.Smart.Path=/usr/sbin/smartctl</code></pre>
+        </li>
+        <li>Let the zabbix user run smartctl as root. Run <code>visudo</code> and add:
+          <pre><code>zabbix ALL=(ALL) NOPASSWD:/usr/sbin/smartctl</code></pre>
+        </li>
+        <li>Check that the agent sees the disks:
+          <pre><code>zabbix_agent2 -t smart.disk.discovery</code></pre>
+        </li>
+        <li>Import <code>zbx_export_templates7_0.yaml</code> in Zabbix and link the template to the host.</li>
+      </ol>
+      <div class="note">
+        <p>On HP Smart Array hosts, set <code>{$SMART.DISK.NAME.NOT_MATCHES}</code> to <code> scsi$</code> to skip the controller's logical volume, which has no SMART data.</p>
+      </div>
+      <p>Some disks need a per-disk macro, for example WD models whose wear counter counts up or that report writes in GiB. The <a href="https://github.com/Silureth/zabbix-agent2-smart-raw#per-disk-settings">README lists these settings</a>.</p>
+
+      <h2>Zabbix 6.0</h2>
+      <p>For Zabbix 6.0 LTS the repository also has an older template and patched, precompiled agent 2 builds, since the 6.0 agent doesn't return normalized SMART values on its own.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

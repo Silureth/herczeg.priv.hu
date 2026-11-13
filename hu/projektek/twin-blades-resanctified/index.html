@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Twin Blades modern gépeken: Resanctified, megőrző port Windowsra és Linuxra – Herczeg Szilárd</title>
+  <meta name="description" content="A Resanctified a 2010-es Windows Phone 7 játék, a Twin Blades ingyenes, nem kereskedelmi célú megőrző portja .NET 10-re és MonoGame-re. Játszható Windowson és Linuxon, opcionális HD textúracsomaggal.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/projects/twin-blades-resanctified/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Twin Blades modern gépeken: Resanctified">
+  <meta property="og:description" content="A 2010-es Windows Phone 7 játék, a Twin Blades megőrző portja Windowsra és Linuxra.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/projektek/twin-blades-resanctified/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "Resanctified",
+    "description": "A 2010-es Windows Phone 7 játék, a Twin Blades nem kereskedelmi célú megőrző portja .NET 10-re és MonoGame DesktopGL-re, Windowsra és Linuxra.",
+    "codeRepository": "https://github.com/Silureth/twin-blades-resanctified",
+    "programmingLanguage": "C#",
+    "keywords": "twin blades, windows phone 7, xna, monogame, játékmegőrzés, port, linux, windows",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/projects/twin-blades-resanctified/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#projektek">← Összes projekt</a></p>
+      <h1>Twin Blades modern gépeken: Resanctified</h1>
+      <p class="lede">A Twin Blades 2010-ben jelent meg Windows Phone 7-re. A telefonok eltűntek, a játékot már nem lehet megvenni vagy telepíteni. A Resanctified egy ingyenes, nem kereskedelmi célú port, amely mai Windowsos és Linuxos gépeken is játszhatóvá teszi.</p>
+      <ul class="tags post-meta"><li>C#</li><li>.NET 10</li><li>MonoGame</li><li>Játékmegőrzés</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/twin-blades-resanctified/releases/latest">v1.0 letöltése</a>
+        <a class="btn" href="https://github.com/Silureth/twin-blades-resanctified">Megnézem a GitHubon</a>
+      </div>
+
+      <h2>Mit csinál a port?</h2>
+      <ul>
+        <li>Az eredeti XNA játékot <strong>.NET 10-re és MonoGame DesktopGL-re</strong> viszi át, így natívan fut Windowson és Linuxon (x64).</li>
+        <li>A kiadások <strong>önállóak</strong>: nem kell hozzájuk .NET-et telepíteni. A linuxos változat az SDL2-t és az OpenAL-t is tartalmazza.</li>
+        <li>Opcionális <strong>HD textúracsomag</strong> az eredeti felbontás kétszeresén, az eredeti grafikából felskálázva. Ha a HD ki van kapcsolva, a játék az eredeti textúrákat használja.</li>
+        <li>Átméretezhető ablak, 960×640-es kezdőmérettel.</li>
+      </ul>
+
+      <h2>Letöltés és indítás</h2>
+      <p>Töltsd le a rendszerednek megfelelő csomagot a <a href="https://github.com/Silureth/twin-blades-resanctified/releases/latest">legfrissebb kiadásból</a>, és csomagold ki. A mappát tartsd egyben, mert a játék a futtatható fájl mellől tölti be a tartalmat.</p>
+      <h3>Linux</h3>
+      <pre><code>tar -xzf Resanctified-v1.0-linux-x64.tar.gz
+./Resanctified-linux-x64/Resanctified</code></pre>
+      <p class="muted">Ha a csomagot Windowson újracsomagolták, és elveszett a futtathatósági jog, futtasd: <code>chmod +x Resanctified</code>.</p>
+      <h3>Windows</h3>
+      <p>Csomagold ki a <code>Resanctified-v1.0-win-x64.zip</code> fájlt, és kattints duplán a <code>Resanctified.exe</code>-re.</p>
+      <h3>Ablakméret és mentések</h3>
+      <p>Indítás nagyobb ablakkal:</p>
+      <pre><code>./Resanctified --window 1440x960</code></pre>
+      <p>A mentések és beállítások Linuxon a <code>~/.local/share/Resanctified</code>, Windowson a <code>%LOCALAPPDATA%\Resanctified</code> mappába kerülnek.</p>
+
+      <h2>Szerzői jog</h2>
+      <div class="note">
+        <p>A <strong>Twin Blades</strong> és minden eredeti kódja, grafikája, zenéje, hangja és szövege ©2010 Press Start Studio. Minden jog fenntartva. Ez a projekt nem áll kapcsolatban a Press Start Studióval, a kiadóval, a Microsofttal vagy más jogtulajdonossal, és ők nem is támogatják. Ingyenes, nincs benne reklám, és semmilyen bevétel nem származik belőle.</p>
+      </div>
+      <p>Ha jogaid vannak a Twin Bladesre, és szeretnéd, hogy a projekt módosuljon vagy megszűnjön, <a href="https://github.com/Silureth/twin-blades-resanctified/issues">nyiss egy issue-t a GitHubon</a>, és gyorsan megtörténik.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

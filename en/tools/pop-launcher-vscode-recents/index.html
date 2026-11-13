@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Open recent VS Code projects from the Pop!_OS launcher – Szilárd Herczeg</title>
+  <meta name="description" content="pop-launcher plugin for Pop!_OS: type vc to search and open recent VS Code folders and workspaces, including WSL, SSH and dev container projects. A single static Rust binary.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-vscode-recents/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Open recent VS Code projects from the Pop!_OS launcher">
+  <meta property="og:description" content="Type vc to search and open recent VS Code folders and workspaces, local or remote.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/pop-launcher-vscode-recents/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pop-launcher-vscode-recents",
+    "description": "pop-launcher plugin that searches and opens recent VS Code folders and workspaces, including remote ones.",
+    "codeRepository": "https://github.com/Silureth/pop-launcher-vscode-recents",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "pop-launcher, pop!_os, cosmic, vscode, visual studio code, recent projects, launcher plugin",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/pop-launcher-vscode-recents/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>Open recent VS Code projects from the Pop!_OS launcher</h1>
+      <p class="lede">Jump back into any project without opening VS Code first. Press Super, type <code>vc</code> and part of the folder name, and it opens, even if it's a WSL, SSH or container folder.</p>
+      <ul class="tags post-meta"><li>pop-launcher plugin</li><li>Rust</li><li>x86_64 &amp; ARM64</li><li>MIT license</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pop-launcher-vscode-recents">View on GitHub</a>
+        <a class="btn" href="https://github.com/Silureth/pop-launcher-vscode-recents/releases/latest">Latest release</a>
+      </div>
+
+      <h2>What you get</h2>
+      <ul>
+        <li>Lists the folders and workspaces you recently opened in VS Code.</li>
+        <li>Remote projects (WSL, SSH, containers) are included too.</li>
+        <li>Icons come from your desktop icon theme, so results match the rest of your system.</li>
+        <li>Local folders that no longer exist are hidden.</li>
+        <li>A single static binary: no Node.js, no Rust toolchain needed.</li>
+      </ul>
+
+      <h2>Install</h2>
+      <p>You need pop-launcher and the <code>code</code> command in your PATH. Download the latest release into your plugins folder:</p>
+      <pre><code>mkdir -p ~/.local/share/pop-launcher/plugins
+curl -fsSL "https://github.com/Silureth/pop-launcher-vscode-recents/releases/latest/download/vscode-open-recent-$(uname -m).tar.gz" \
+  | tar -xz -C ~/.local/share/pop-launcher/plugins</code></pre>
+      <p>Then restart pop-launcher. It starts again the next time you open the launcher:</p>
+      <pre><code>pkill pop-launcher</code></pre>
+      <p>To update, run both steps again. Your settings are kept.</p>
+
+      <h2>Settings</h2>
+      <p>The defaults work out of the box. To change them, copy <code>config.example.json</code> to <code>config.json</code> in the plugin folder:</p>
+      <table>
+        <thead><tr><th>Option</th><th>Default</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>always_open_in_new_window</code></td><td><code>true</code></td><td>Open entries in a new VS Code window</td></tr>
+          <tr><td><code>hide_deleted_entries</code></td><td><code>true</code></td><td>Skip local folders that no longer exist</td></tr>
+          <tr><td><code>vscode-cli-additional-args</code></td><td><code>[]</code></td><td>Extra arguments for <code>code</code>, e.g. <code>["--profile", "Work"]</code></td></tr>
+        </tbody>
+      </table>
+      <p>You can also change the <code>vc</code> trigger word in <code>plugin.ron</code>. If you used the older Node.js version, the <a href="https://github.com/Silureth/pop-launcher-vscode-recents#upgrading-from-the-nodejs-version">README explains how to upgrade</a>.</p>
+
+      <h2>See also</h2>
+      <p><a href="/en/tools/pop-launcher-remmina/">Remmina connections in the Pop!_OS launcher</a>: the same idea for RDP, VNC and SSH connections.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

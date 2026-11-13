@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>SMART lemezfigyelő sablon Zabbix agent 2-höz (HDD, SSD, NVMe, RAID) – Herczeg Szilárd</title>
+  <meta name="description" content="Ingyenes Zabbix 7.0 sablon a lemezek S.M.A.R.T. állapotának figyeléséhez: SSD kopás, TBW, függő szektorok, CRC hibák és lemezkor-riasztások. A gyári Zabbix agent 2-vel és HP Smart Array mögötti lemezekkel is működik.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/zabbix-smart-template/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SMART lemezfigyelő sablon Zabbix agent 2-höz">
+  <meta property="og:description" content="SSD kopás, TBW, hibajelző attribútumok és lemezkor-riasztások HDD-hez, SSD-hez és NVMe-hez, a gyári Zabbix agent 2-vel.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/zabbix-smart-template/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "SMART by Zabbix agent 2 by Silureth",
+    "description": "Zabbix sablon HDD-k, SATA SSD-k és NVMe meghajtók S.M.A.R.T. figyeléséhez, RAID vezérlő mögötti lemezekkel is, a gyári Zabbix agent 2-vel.",
+    "codeRepository": "https://github.com/Silureth/zabbix-agent2-smart-raw",
+    "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+    "keywords": "zabbix, smart, smartctl, ssd kopás, nvme, raid, lemezfigyelés",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/zabbix-smart-template/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>SMART lemezfigyelő sablon Zabbix agent 2-höz</h1>
+      <p class="lede">Tudd meg, hogy kopik egy lemez, mielőtt tönkremegy. Ez a Zabbix sablon kiolvassa a S.M.A.R.T. adatokat HDD-kből, SATA SSD-kből és NVMe meghajtókból, RAID vezérlő mögött is, és riaszt SSD kopásra, hibajelző attribútumokra és a lemez korára.</p>
+      <ul class="tags post-meta"><li>Zabbix 7.0</li><li>Zabbix 6.0</li><li>smartctl</li><li>HP Smart Array</li><li>AGPL-3.0 licenc</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/zabbix-agent2-smart-raw">Megnézem a GitHubon</a>
+        <a class="btn" href="https://github.com/Silureth/zabbix-agent2-smart-raw/blob/main/zbx_export_templates7_0.yaml">Sablon fájl (7.0)</a>
+      </div>
+
+      <h2>Miért kell még egy SMART sablon?</h2>
+      <p>A hivatalos „SMART by Zabbix agent 2” sablon az alapokat lefedi, de azt nem mondja meg, mennyi élet van még egy SSD-ben. Minden gyártó más attribútumnéven jelenti a kopást, és van, amelyik felfelé, van, amelyik lefelé számol. Ez a sablon hozzáadja ezeket a gyártói attribútumokat, egyetlen „hátralévő élettartam %” értékre alakítja őket, és riaszt rájuk.</p>
+      <p>A <strong>gyári</strong> Zabbix agent 2-vel működik (7.0.x, 7.0.32-n tesztelve). Nincs szükség külső szkriptekre vagy saját agent buildre. Saját UUID-kkal rendelkezik, így a hivatalos sablon mellé is importálható.</p>
+
+      <h2>Mit figyel?</h2>
+      <p>Minden lemez, amelyet a smartctl olvasni tud, megkapja a hőmérsékletet, az üzemórákat, a modellt, a sorozatszámot, a smartctl kilépési kódját és az önteszt eredményét. Az NVMe lemezek ezen felül a kopás százalékát, a kritikus figyelmeztetést és a médiahibákat is. A gyártói attribútumok akkor jelennek meg, ha a lemez jelenti őket:</p>
+      <table>
+        <thead><tr><th>Lemez</th><th>Élettartam elem</th><th>További elemek</th></tr></thead>
+        <tbody>
+          <tr><td>Samsung SATA SSD</td><td>Wear_Leveling_Count</td><td>Összes kiírt adat, Runtime_Bad_Block, Uncorrectable_Error_Cnt, CRC_Error_Count</td></tr>
+          <tr><td>Micron / Crucial SATA SSD</td><td>Percent_Lifetime_Remain</td><td>Összes kiírt adat, Current_Pending_Sector, Offline_Uncorrectable, UDMA_CRC_Error_Count, Reported_Uncorrect</td></tr>
+          <tr><td>WD (Red SA500 és mások)</td><td>Media_Wearout_Indicator</td><td>Összes kiírt adat, UDMA_CRC_Error_Count, Reported_Uncorrect</td></tr>
+          <tr><td>Kingston SSD</td><td>SSD_Life_Left</td><td>Összes kiírt adat, ha a lemez jelenti</td></tr>
+          <tr><td>NVMe (bármely gyártó)</td><td>Percentage used</td><td>Kritikus figyelmeztetés, médiahibák</td></tr>
+          <tr><td>HDD (bármely gyártó)</td><td>–</td><td>Reallocated_Sector_Ct, Current_Pending_Sector, Offline_Uncorrectable, Seek_Error_Rate és továbbiak</td></tr>
+        </tbody>
+      </table>
+      <p class="muted">Tesztelve Samsung 860/870 EVO, Micron MTFDDAK960TCB, WD Red SA500 és Samsung 980 / 980 PRO NVMe lemezekkel, a SATA lemezek HP Smart Array (<code>cciss</code>) vezérlő mögött.</p>
+
+      <h2>Riasztások</h2>
+      <ul>
+        <li><strong>SSD kopás:</strong> figyelmeztetés, átlagos és kritikus szint 30 / 20 / 10 % hátralévő élettartam alatt (makrókkal állítható).</li>
+        <li><strong>Hibajelző attribútumok:</strong> függő és javíthatatlan szektorok, futás közbeni hibás blokkok és CRC hibák, amelyek általában rossz kábelre vagy backplane-re utalnak. Riaszt, ha az áthelyezett szektorok vagy a jelentett javíthatatlan hibák száma nő.</li>
+        <li><strong>Lemez kora</strong> az üzemórák alapján: HDD-nél 8 / 10 / 12 év, SSD-nél és NVMe-nél 6 / 7 / 8 év.</li>
+        <li><strong>Gyanús kopásszámláló:</strong> több mint 500 TB kiírt adat, miközben a lemez még mindig 99–100 % élettartamot jelez.</li>
+      </ul>
+
+      <h2>Telepítés</h2>
+      <ol>
+        <li>Telepítsd a Zabbix agent 2-t (7.0 vagy újabb) és a smartmontools-t (7.1 vagy újabb).</li>
+        <li>Add meg az agentnek a <code>smartctl</code> helyét, ha nincs benne a PATH-ban:
+          <pre><code>Plugins.Smart.Path=/usr/sbin/smartctl</code></pre>
+        </li>
+        <li>Engedd meg a zabbix felhasználónak, hogy rootként futtassa a smartctl-t. Futtasd a <code>visudo</code>-t, és add hozzá:
+          <pre><code>zabbix ALL=(ALL) NOPASSWD:/usr/sbin/smartctl</code></pre>
+        </li>
+        <li>Ellenőrizd, hogy az agent látja-e a lemezeket:
+          <pre><code>zabbix_agent2 -t smart.disk.discovery</code></pre>
+        </li>
+        <li>Importáld a <code>zbx_export_templates7_0.yaml</code> fájlt a Zabbixba, és kapcsold a sablont a hosthoz.</li>
+      </ol>
+      <div class="note">
+        <p>HP Smart Array-es hostokon állítsd a <code>{$SMART.DISK.NAME.NOT_MATCHES}</code> makrót <code> scsi$</code> értékre, hogy kimaradjon a vezérlő logikai kötete, amelynek nincs SMART adata.</p>
+      </div>
+      <p>Néhány lemezhez lemezenkénti makró kell, például azokhoz a WD modellekhez, amelyek kopásszámlálója felfelé számol, vagy GiB-ban jelentik a kiírt adatot. Ezeket a <a href="https://github.com/Silureth/zabbix-agent2-smart-raw#per-disk-settings">README sorolja fel</a> (angolul).</p>
+
+      <h2>Zabbix 6.0</h2>
+      <p>Zabbix 6.0 LTS-hez a repóban van egy régebbi sablon és javított, előre lefordított agent 2 buildek is, mivel a 6.0-s agent magától nem ad vissza normalizált SMART értékeket.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

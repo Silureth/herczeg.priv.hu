@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Remmina kapcsolatok megnyitása a Pop!_OS launcherből – Herczeg Szilárd</title>
+  <meta name="description" content="pop-launcher plugin Pop!_OS-hez: a rem paranccsal keresheted és nyithatod meg a mentett Remmina RDP, VNC és SSH kapcsolatokat. Egyetlen statikus Rust bináris, natív és Flatpak Remminával is működik.">
+  <link rel="canonical" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Remmina kapcsolatok megnyitása a Pop!_OS launcherből">
+  <meta property="og:description" content="A rem paranccsal keresheted és nyithatod meg a mentett RDP, VNC és SSH kapcsolatokat.">
+  <meta property="og:url" content="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/">
+  <meta property="og:locale" content="hu_HU">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pop-launcher-remmina-quick-connect",
+    "description": "pop-launcher plugin, amely keres a mentett Remmina kapcsolatok (RDP, VNC, SSH) között, és megnyitja őket.",
+    "codeRepository": "https://github.com/Silureth/pop-launcher-remmina-quick-connect",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "pop-launcher, pop!_os, cosmic, remmina, rdp, vnc, ssh, launcher plugin",
+    "inLanguage": "hu",
+    "author": { "@type": "Person", "name": "Herczeg Szilárd", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Ugrás a tartalomra</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/hu/">Herczeg Szilárd</a>
+      <nav class="site-nav" aria-label="Fő menü">
+        <a href="/hu/#eszkozok">Eszközök</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/en/tools/pop-launcher-remmina/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/hu/#eszkozok">← Összes eszköz</a></p>
+      <h1>Remmina kapcsolatok megnyitása a Pop!_OS launcherből</h1>
+      <p class="lede">Nem kell többé a Remmina ablakában keresgélni a szervert. Nyomd meg a Super billentyűt, írd be, hogy <code>rem</code> és a név egy részét, és megnyílik az RDP, VNC vagy SSH kapcsolat.</p>
+      <ul class="tags post-meta"><li>pop-launcher plugin</li><li>Rust</li><li>x86_64 és ARM64</li><li>MIT licenc</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pop-launcher-remmina-quick-connect">Megnézem a GitHubon</a>
+        <a class="btn" href="https://github.com/Silureth/pop-launcher-remmina-quick-connect/releases/latest">Legfrissebb kiadás</a>
+      </div>
+
+      <h2>Hogyan működik?</h2>
+      <ul>
+        <li>Minden találat mutatja a kapcsolat nevét, csoportját, protokollját és a <code>felhasználó@szerver</code> párost. Bármelyikre kereshetsz: <code>rem office db</code> vagy <code>rem 10.0.1</code>.</li>
+        <li>Keresőszöveg nélkül a legutóbb használt kapcsolatok kerülnek előre.</li>
+        <li>A <code>.remmina</code> fájlokból csak a nevet, csoportot, protokollt, szervert és felhasználónevet olvassa ki. A jelszavakhoz soha nem nyúl.</li>
+        <li>Megtalálja a kapcsolatokat natív, Flatpak és régi Remmina telepítésnél is, és abban a saját mappában is, amit a Remmina beállításaiban megadtál.</li>
+      </ul>
+
+      <h2>Telepítés</h2>
+      <p>Egyetlen statikus bináris, így semmi mást nem kell telepíteni. Töltsd le a legfrissebb kiadást a plugin mappába:</p>
+      <pre><code>mkdir -p ~/.local/share/pop-launcher/plugins
+curl -fsSL "https://github.com/Silureth/pop-launcher-remmina-quick-connect/releases/latest/download/remmina-quick-connect-$(uname -m).tar.gz" \
+  | tar -xz -C ~/.local/share/pop-launcher/plugins</code></pre>
+      <p>Utána indítsd újra a pop-launchert. A launcher következő megnyitásakor újraindul:</p>
+      <pre><code>pkill pop-launcher</code></pre>
+      <p>Frissítéshez futtasd le újra mindkét lépést. A beállításaid megmaradnak.</p>
+
+      <h2>Flatpak Remmina</h2>
+      <p>Másold a <code>config.example.json</code> fájlt <code>config.json</code> néven a plugin mappájába, és add meg az indító parancsot:</p>
+      <pre><code>{ "remmina_command": ["flatpak", "run", "org.remmina.Remmina"] }</code></pre>
+      <p>A <code>rem</code> kulcsszót is átírhatod a <code>plugin.ron</code> fájlban. A részletek a <a href="https://github.com/Silureth/pop-launcher-remmina-quick-connect#configuration">README-ben</a> vannak (angolul).</p>
+
+      <h2>Lásd még</h2>
+      <p><a href="/hu/eszkozok/pop-launcher-vscode-recents/">Legutóbbi VS Code projektek a Pop!_OS launcherből</a>: ugyanez az ötlet VS Code mappákhoz és workspace-ekhez.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Herczeg Szilárd</span>
+      <nav aria-label="Máshol">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#282a36">
+  <title>Open Remmina connections from the Pop!_OS launcher – Szilárd Herczeg</title>
+  <meta name="description" content="pop-launcher plugin for Pop!_OS: type rem to search and open saved Remmina RDP, VNC and SSH connections. A single static Rust binary, works with native and Flatpak Remmina.">
+  <link rel="canonical" href="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/">
+  <link rel="alternate" hreflang="en" href="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/">
+  <link rel="alternate" hreflang="hu" href="https://herczeg.priv.hu/hu/eszkozok/pop-launcher-remmina/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Open Remmina connections from the Pop!_OS launcher">
+  <meta property="og:description" content="Type rem to search and open saved RDP, VNC and SSH connections.">
+  <meta property="og:url" content="https://herczeg.priv.hu/en/tools/pop-launcher-remmina/">
+  <meta property="og:locale" content="en_US">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "pop-launcher-remmina-quick-connect",
+    "description": "pop-launcher plugin that searches and opens saved Remmina connections (RDP, VNC, SSH).",
+    "codeRepository": "https://github.com/Silureth/pop-launcher-remmina-quick-connect",
+    "programmingLanguage": "Rust",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": "pop-launcher, pop!_os, cosmic, remmina, rdp, vnc, ssh, launcher plugin",
+    "author": { "@type": "Person", "name": "Szilárd Herczeg", "url": "https://herczeg.priv.hu/" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/en/">Szilárd Herczeg</a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="/en/#tools">Tools</a>
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a class="lang-switch" href="/hu/eszkozok/pop-launcher-remmina/" hreflang="hu" lang="hu" data-lang="hu" title="Magyar változat">HU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <article>
+      <p class="crumbs"><a href="/en/#tools">← All tools</a></p>
+      <h1>Open Remmina connections from the Pop!_OS launcher</h1>
+      <p class="lede">Stop clicking through the Remmina window to find a server. Press Super, type <code>rem</code> and part of a name, and the RDP, VNC or SSH session opens.</p>
+      <ul class="tags post-meta"><li>pop-launcher plugin</li><li>Rust</li><li>x86_64 &amp; ARM64</li><li>MIT license</li></ul>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/Silureth/pop-launcher-remmina-quick-connect">View on GitHub</a>
+        <a class="btn" href="https://github.com/Silureth/pop-launcher-remmina-quick-connect/releases/latest">Latest release</a>
+      </div>
+
+      <h2>How it works</h2>
+      <ul>
+        <li>Each result shows the connection name with its group, protocol and <code>user@server</code>. You can search by any of them: <code>rem office db</code> or <code>rem 10.0.1</code>.</li>
+        <li>With no search text, your most recently used connections come first.</li>
+        <li>It reads only the name, group, protocol, server and username from your <code>.remmina</code> files. Passwords are never touched.</li>
+        <li>It finds connections in native, Flatpak and legacy Remmina installs, and in a custom folder if you set one in Remmina's preferences.</li>
+      </ul>
+
+      <h2>Install</h2>
+      <p>It's a single static binary, so there's nothing else to install. Download the latest release into your plugins folder:</p>
+      <pre><code>mkdir -p ~/.local/share/pop-launcher/plugins
+curl -fsSL "https://github.com/Silureth/pop-launcher-remmina-quick-connect/releases/latest/download/remmina-quick-connect-$(uname -m).tar.gz" \
+  | tar -xz -C ~/.local/share/pop-launcher/plugins</code></pre>
+      <p>Then restart pop-launcher. It starts again the next time you open the launcher:</p>
+      <pre><code>pkill pop-launcher</code></pre>
+      <p>To update, run both steps again. Your settings are kept.</p>
+
+      <h2>Flatpak Remmina</h2>
+      <p>Copy <code>config.example.json</code> to <code>config.json</code> in the plugin folder and set the launch command:</p>
+      <pre><code>{ "remmina_command": ["flatpak", "run", "org.remmina.Remmina"] }</code></pre>
+      <p>You can also change the <code>rem</code> trigger word in <code>plugin.ron</code>. The <a href="https://github.com/Silureth/pop-launcher-remmina-quick-connect#configuration">README</a> has the details.</p>
+
+      <h2>See also</h2>
+      <p><a href="/en/tools/pop-launcher-vscode-recents/">Recent VS Code projects in the Pop!_OS launcher</a>: the same idea for VS Code folders and workspaces.</p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Szilárd Herczeg</span>
+      <nav aria-label="Elsewhere">
+        <a href="https://github.com/Silureth">GitHub</a>
+        <a href="https://www.linkedin.com/in/szilardherczeg">LinkedIn</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="/assets/site.js" defer></script>
+</body>
+</html>
